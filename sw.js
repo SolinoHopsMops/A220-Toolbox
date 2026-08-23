@@ -1,4 +1,4 @@
-const CACHE = 'a220-perf-v1';
+const CACHE = 'a220-perf-v2';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-maskable.png'

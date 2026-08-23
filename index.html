@@ -11,27 +11,11 @@
 <link rel="manifest" href="manifest.webmanifest">
 <title>A220 Performance Tools</title>
 <style>
-  :root{
-    --swiss-red:#E30613;
-    --ink:#111315;
-    --muted:#6B7280;
-    --faint:#9AA0A6;
-    --hair:#E7E8EA;
-    --panel:#F7F7F8;
-    --bg:#FFFFFF;
-    --warn:#B54708;
-  }
+  :root{--swiss-red:#E30613;--ink:#111315;--muted:#6B7280;--faint:#9AA0A6;--hair:#E7E8EA;--panel:#F7F7F8;--bg:#FFFFFF;--warn:#B54708}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
-  body{
-    font-family:"Helvetica Neue",Helvetica,Arial,-apple-system,sans-serif;
-    background:var(--bg);color:var(--ink);
-    -webkit-font-smoothing:antialiased;
-    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
+  body{font-family:"Helvetica Neue",Helvetica,Arial,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
   .wrap{max-width:520px;margin:0 auto;padding:22px 20px 40px}
-
-  /* Header */
   header{display:flex;align-items:center;gap:12px;padding-bottom:14px}
   .cross{width:26px;height:26px;background:var(--swiss-red);border-radius:3px;position:relative;flex:0 0 auto}
   .cross::before,.cross::after{content:"";position:absolute;background:#fff}
@@ -40,76 +24,59 @@
   .brand{display:flex;flex-direction:column;line-height:1.1}
   .brand .b1{font-size:15px;font-weight:700;letter-spacing:.02em}
   .brand .b2{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+  .badge{margin-left:auto;border:1.5px solid var(--swiss-red);color:var(--swiss-red);font-size:12px;font-weight:700;letter-spacing:.08em;padding:6px 12px;border-radius:999px;cursor:pointer;background:#fff;display:none}
+  .badge.show{display:inline-block}
   .rule{height:2px;background:var(--swiss-red);border:0;margin:0 0 22px}
-
   h1{font-size:19px;font-weight:700;margin:0 0 2px;letter-spacing:.01em}
   .sub{font-size:12px;color:var(--muted);margin:0 0 24px;letter-spacing:.03em}
-
-  /* Back */
   .back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;font:inherit;font-size:13px;font-weight:600;color:var(--muted);padding:0 0 16px;cursor:pointer;letter-spacing:.02em}
   .back svg{width:14px;height:14px}
-
-  /* Views */
   .view{display:none}
   .view.active{display:block;animation:fade .18s ease}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-
-  /* Home tiles */
   .tile{width:100%;text-align:left;border:1px solid var(--hair);border-radius:14px;background:var(--bg);padding:20px;margin-bottom:14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;transition:.14s;font:inherit}
   .tile:active{background:var(--panel)}
   .tile .tt{font-size:16px;font-weight:700;letter-spacing:.01em;margin-bottom:4px}
   .tile .td{font-size:12px;color:var(--muted);letter-spacing:.02em}
   .tile .chev{color:var(--swiss-red);flex:0 0 auto}
   .tile .chev svg{width:18px;height:18px;display:block}
-
-  /* Field blocks */
+  .tile.variant .tt{font-size:22px;letter-spacing:.04em}
   .field{margin-bottom:24px}
   .label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-
-  /* Segmented */
+  .hint{font-size:11px;color:var(--faint);margin-top:8px;letter-spacing:.01em;line-height:1.4}
   .seg{display:flex;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--panel)}
-  .seg button{flex:1;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--muted);padding:13px 6px;cursor:pointer;transition:.12s}
+  .seg button{flex:1;border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--muted);padding:13px 4px;cursor:pointer;transition:.12s}
   .seg button+button{border-left:1px solid var(--hair)}
   .seg button.on{background:var(--swiss-red);color:#fff}
-
-  /* Mach grid */
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .grid.six{grid-template-columns:repeat(3,1fr)}
   .grid button{border:1px solid var(--hair);background:var(--bg);border-radius:9px;font:inherit;font-size:15px;font-weight:600;color:var(--ink);padding:13px 0;cursor:pointer;transition:.12s;font-variant-numeric:tabular-nums}
   .grid button.on{background:var(--swiss-red);border-color:var(--swiss-red);color:#fff}
-
-  /* Stepper */
   .stp{display:flex;align-items:stretch;border:1px solid var(--hair);border-radius:10px;overflow:hidden}
   .stp button{width:58px;border:0;background:var(--panel);font-size:26px;font-weight:400;color:var(--ink);cursor:pointer;line-height:1;transition:.12s}
   .stp button:active{background:#ececee}
   .stp .val{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--hair);border-right:1px solid var(--hair)}
   .stp input{width:100%;border:0;text-align:center;font:inherit;font-size:26px;font-weight:700;color:var(--ink);padding:11px 0 2px;font-variant-numeric:tabular-nums;outline:none;background:transparent}
   .stp .unit{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);padding-bottom:9px}
-
-  /* Result */
   .result{margin-top:6px;border:1px solid var(--hair);border-radius:14px;overflow:hidden}
   .result .top{padding:26px 22px 22px;text-align:center;background:var(--panel)}
   .rlabel{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
   .big{font-size:64px;font-weight:700;letter-spacing:-.01em;line-height:1;font-variant-numeric:tabular-nums}
   .big .pre{font-size:26px;font-weight:600;color:var(--muted);vertical-align:middle;margin-right:4px;letter-spacing:.04em}
-  .big.na{font-size:20px;font-weight:700;color:var(--warn);letter-spacing:.01em;line-height:1.35}
+  .big.na{font-size:19px;font-weight:700;color:var(--warn);letter-spacing:.01em;line-height:1.35}
   .rmeta{margin-top:12px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
   .rmeta b{color:var(--ink);font-weight:600}
   .flag{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--warn)}
-
-  /* Result sub-rows (FPA) */
   .rows{border-top:1px solid var(--hair)}
   .row{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid var(--hair)}
   .row:last-child{border-bottom:0}
   .row .k{font-size:12px;color:var(--muted);letter-spacing:.02em}
   .row .v{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
-
-  /* Conditions */
   .cond{padding:16px 20px;border-top:1px solid var(--hair)}
   .cond .ct{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
   .cond ul{margin:0;padding:0;list-style:none}
   .cond li{font-size:12px;color:var(--muted);padding:3px 0 3px 16px;position:relative;line-height:1.4}
   .cond li::before{content:"";position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:var(--swiss-red)}
-
   footer{margin-top:22px;text-align:center;font-size:10px;letter-spacing:.06em;color:var(--faint);line-height:1.6}
 </style>
 </head>
@@ -117,324 +84,260 @@
 <div class="wrap">
   <header>
     <div class="cross" aria-hidden="true"></div>
-    <div class="brand">
-      <span class="b1">SWISS</span>
-      <span class="b2">Flight Operations</span>
-    </div>
+    <div class="brand"><span class="b1">SWISS</span><span class="b2">Flight Operations</span></div>
+    <button class="badge" id="badge" onclick="go('variant')"></button>
   </header>
   <hr class="rule">
 
-  <!-- ============ HOME ============ -->
-  <section class="view active" id="v-home">
+  <section class="view active" id="v-variant">
     <h1>A220 Performance Tools</h1>
-    <p class="sub">Auswahl · BCS1 / BCS3</p>
-
-    <button class="tile" onclick="go('cruise')">
-      <span>
-        <span class="tt">Maximum Cruise Altitude</span>
-        <span class="td">BCS1 · Cruise ceiling (AEO)</span>
-      </span>
-      <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
-    </button>
-
-    <button class="tile" onclick="go('fpa')">
-      <span>
-        <span class="tt">Mean Idle Thrust FPA</span>
-        <span class="td">BCS1 / BCS3 · Descent path angle</span>
-      </span>
-      <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
-    </button>
+    <p class="sub">Zuerst Muster wählen</p>
+    <button class="tile variant" onclick="setVariant('bcs1')"><span><span class="tt">BCS1</span><span class="td">A220-100</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <button class="tile variant" onclick="setVariant('bcs3')"><span><span class="tt">BCS3</span><span class="td">A220-300</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <footer>Muster jederzeit oben rechts umschaltbar</footer>
   </section>
 
-  <!-- ============ CRUISE ALTITUDE ============ -->
-  <section class="view" id="v-cruise">
-    <button class="back" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Auswahl</button>
+  <section class="view" id="v-tools">
+    <button class="back" onclick="go('variant')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Muster</button>
+    <h1>Was brauchst du?</h1>
+    <p class="sub" id="tools-sub"></p>
+    <button class="tile" onclick="go('maxalt')"><span><span class="tt">Maximum Cruise Altitude</span><span class="td">Wie hoch kommen wir? · Ceiling / Limit</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <button class="tile" onclick="go('recalt')"><span><span class="tt">Recommended Altitude</span><span class="td">Vernünftiges Cruise Level · Normal Ops</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <button class="tile" onclick="go('fpa')"><span><span class="tt">Mean Idle Thrust FPA</span><span class="td">Descent path angle</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+  </section>
+
+  <section class="view" id="v-maxalt">
+    <button class="back" onclick="go('tools')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Tools</button>
     <h1>Maximum Cruise Altitude</h1>
-    <p class="sub">A220-100 · BCS1 · Cruise Ceiling (AEO)</p>
-
-    <div class="field">
-      <div class="label">Temperature</div>
-      <div class="seg" id="c-temp">
-        <button data-t="isa" class="on">ISA or below</button>
-        <button data-t="p10">ISA +10 °C</button>
+    <p class="sub" id="m-sub">Cruise Ceiling (AEO)</p>
+    <div class="field"><div class="label">Temperature</div>
+      <div class="seg" id="m-temp"><button data-t="isa" class="on">ISA</button><button data-t="p10">ISA +10</button><button data-t="p20">ISA +20</button></div>
+      <div class="hint">„ISA" = ISA or below. Im Zweifel die wärmere Tabelle (niedrigere FL).</div>
+    </div>
+    <div class="field"><div class="label">Gross Weight</div>
+      <div class="stp"><button data-m-step="-500">−</button><div class="val"><input id="m-gw" type="text" inputmode="numeric"><span class="unit">kg</span></div><button data-m-step="500">+</button></div>
+    </div>
+    <div class="field"><div class="label">Cruise Speed (Mach)</div>
+      <div class="grid" id="m-mach">
+        <button data-m="0">0.68</button><button data-m="1">0.70</button><button data-m="2">0.72</button><button data-m="3">0.74</button>
+        <button data-m="4">0.76</button><button data-m="5" class="on">0.78</button><button data-m="6">0.80</button><button data-m="7">0.82</button>
       </div>
     </div>
-
-    <div class="field">
-      <div class="label">Gross Weight</div>
-      <div class="stp">
-        <button data-c-step="-500" aria-label="minus">−</button>
-        <div class="val"><input id="c-gw" type="text" inputmode="numeric" value="52000"><span class="unit">kg</span></div>
-        <button data-c-step="500" aria-label="plus">+</button>
-      </div>
+    <div class="result"><div class="top">
+      <div class="rlabel">Max Cruise Altitude</div>
+      <div class="big" id="m-fl"><span class="pre">FL</span>—</div>
+      <div class="rmeta" id="m-meta"></div>
+      <div class="flag" id="m-flag" style="display:none"></div>
     </div>
-
-    <div class="field">
-      <div class="label">Cruise Speed (Mach)</div>
-      <div class="grid" id="c-mach">
-        <button data-m="0">0.68</button>
-        <button data-m="1">0.70</button>
-        <button data-m="2">0.72</button>
-        <button data-m="3">0.74</button>
-        <button data-m="4">0.76</button>
-        <button data-m="5" class="on">0.78</button>
-        <button data-m="6">0.80</button>
-        <button data-m="7">0.82</button>
-      </div>
-    </div>
-
-    <div class="result">
-      <div class="top">
-        <div class="rlabel">Max Cruise Altitude</div>
-        <div class="big" id="c-fl"><span class="pre">FL</span>390</div>
-        <div class="rmeta" id="c-meta"></div>
-        <div class="flag" id="c-flag" style="display:none"></div>
-      </div>
-      <div class="cond">
-        <div class="ct">Table conditions</div>
-        <ul>
-          <li>Minimum 300 FPM climb capability</li>
-          <li>FADEC 2.11.10 or later · CG 27 % MAC</li>
-          <li>All engines operative · APU off</li>
-          <li>Engine bleed: packs on, anti-ice off</li>
-        </ul>
-      </div>
-    </div>
-    <footer>FCOM 2 · 05 Performance · Enroute (AEO)<br>Conservative reading — weight rounded up, lower FL selected · verify against FCOM</footer>
+    <div class="cond"><div class="ct">Table conditions</div><ul>
+      <li>Minimum 300 FPM climb capability</li>
+      <li>FADEC 2.11.10 or later · CG 27 % MAC</li>
+      <li>All engines operative · APU off</li>
+      <li>Engine bleed: packs on, anti-ice off</li>
+    </ul></div></div>
+    <footer id="m-foot"></footer>
   </section>
 
-  <!-- ============ FPA ============ -->
+  <section class="view" id="v-recalt">
+    <button class="back" onclick="go('tools')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Tools</button>
+    <h1>Recommended Altitude</h1>
+    <p class="sub" id="r-sub">Normal Ops · ISA</p>
+    <div class="field"><div class="label">Take-off Weight (TOW)</div>
+      <div class="stp"><button data-r-step="-500">−</button><div class="val"><input id="r-tow" type="text" inputmode="numeric"><span class="unit">kg</span></div><button data-r-step="500">+</button></div>
+    </div>
+    <div class="field"><div class="label">Corrected Air Distance</div>
+      <div class="grid six" id="r-dist">
+        <button data-d="0">100</button><button data-d="1">150</button><button data-d="2">200</button>
+        <button data-d="3" class="on">250</button><button data-d="4">300</button><button data-d="5">&gt;300</button>
+      </div>
+      <div class="hint">NM. Im Zweifel Spalte ≤ deiner Air Distance (konservativ, niedrigere FL).</div>
+    </div>
+    <div class="result"><div class="top">
+      <div class="rlabel">Recommended Altitude</div>
+      <div class="big" id="r-fl"><span class="pre">FL</span>—</div>
+      <div class="rmeta" id="r-meta"></div>
+      <div class="flag" id="r-flag" style="display:none"></div>
+    </div>
+    <div class="cond"><div class="ct">Table conditions</div><ul>
+      <li>All engines operative · ISA</li>
+      <li>FADEC 2.11.10 or later · clean configuration</li>
+      <li>Climb 250 / 275 KIAS / 0.78 M</li>
+      <li>Cruise 0.78 M · Descent 0.78 M / 275 / 250 KIAS</li>
+    </ul></div></div>
+    <footer id="r-foot"></footer>
+  </section>
+
   <section class="view" id="v-fpa">
-    <button class="back" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Auswahl</button>
+    <button class="back" onclick="go('tools')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Tools</button>
     <h1>Mean Idle Thrust FPA</h1>
     <p class="sub">A220 · BCS1 / BCS3 · Flight Path Angle</p>
-
-    <div class="field">
-      <div class="label">Aircraft Weight</div>
-      <div class="stp">
-        <button data-f-wstep="-500" aria-label="minus">−</button>
-        <div class="val"><input id="f-gw" type="text" inputmode="numeric" value="50000"><span class="unit">kg</span></div>
-        <button data-f-wstep="500" aria-label="plus">+</button>
-      </div>
+    <div class="field"><div class="label">Aircraft Weight</div>
+      <div class="stp"><button data-f-wstep="-500">−</button><div class="val"><input id="f-gw" type="text" inputmode="numeric" value="50000"><span class="unit">kg</span></div><button data-f-wstep="500">+</button></div>
     </div>
-
-    <div class="field">
-      <div class="label">Indicated Airspeed (IAS)</div>
-      <div class="stp">
-        <button data-f-istep="-5" aria-label="minus">−</button>
-        <div class="val"><input id="f-ias" type="text" inputmode="numeric" value="250"><span class="unit">kt</span></div>
-        <button data-f-istep="5" aria-label="plus">+</button>
-      </div>
+    <div class="field"><div class="label">Indicated Airspeed (IAS)</div>
+      <div class="stp"><button data-f-istep="-5">−</button><div class="val"><input id="f-ias" type="text" inputmode="numeric" value="250"><span class="unit">kt</span></div><button data-f-istep="5">+</button></div>
     </div>
-
-    <div class="field">
-      <div class="label">Wind Component</div>
-      <div class="seg" id="f-wind">
-        <button data-w="none" class="on">None</button>
-        <button data-w="headwind">Headwind</button>
-        <button data-w="tailwind">Tailwind</button>
-      </div>
+    <div class="field"><div class="label">Wind Component</div>
+      <div class="seg" id="f-wind"><button data-w="none" class="on">None</button><button data-w="headwind">Headwind</button><button data-w="tailwind">Tailwind</button></div>
     </div>
-
-    <div class="field" id="f-wsGroup" style="display:none">
-      <div class="label">Wind Speed</div>
-      <div class="stp">
-        <button data-f-wsstep="-5" aria-label="minus">−</button>
-        <div class="val"><input id="f-ws" type="text" inputmode="numeric" value="0"><span class="unit">kt</span></div>
-        <button data-f-wsstep="5" aria-label="plus">+</button>
-      </div>
+    <div class="field" id="f-wsGroup" style="display:none"><div class="label">Wind Speed</div>
+      <div class="stp"><button data-f-wsstep="-5">−</button><div class="val"><input id="f-ws" type="text" inputmode="numeric" value="0"><span class="unit">kt</span></div><button data-f-wsstep="5">+</button></div>
     </div>
-
-    <div class="result">
-      <div class="top">
-        <div class="rlabel">Final Flight Path Angle</div>
-        <div class="big" id="f-final">−3.1°</div>
-        <div class="rmeta" id="f-meta"></div>
-      </div>
-      <div class="rows" id="f-rows">
-        <div class="row"><span class="k">Base FPA (table)</span><span class="v" id="f-base">−3.1°</span></div>
-        <div class="row"><span class="k">Wind correction</span><span class="v" id="f-corr">+0.00°</span></div>
-      </div>
-      <div class="cond">
-        <div class="ct">Table conditions</div>
-        <ul>
-          <li>≥ FL100 · idle thrust · constant IAS</li>
-          <li>No ice · CG 25 % · ECS on</li>
-          <li>Wind correction ±0.1° per 10 kt</li>
-        </ul>
-      </div>
+    <div class="result"><div class="top">
+      <div class="rlabel">Final Flight Path Angle</div>
+      <div class="big" id="f-final">−3.1°</div>
+      <div class="rmeta" id="f-meta"></div>
     </div>
+    <div class="rows" id="f-rows">
+      <div class="row"><span class="k">Base FPA (table)</span><span class="v" id="f-base">−3.1°</span></div>
+      <div class="row"><span class="k">Wind correction</span><span class="v" id="f-corr">+0.00°</span></div>
+    </div>
+    <div class="cond"><div class="ct">Table conditions</div><ul>
+      <li>≥ FL100 · idle thrust · constant IAS</li>
+      <li>No ice · CG 25 % · ECS on</li>
+      <li>Wind correction ±0.1° per 10 kt</li>
+    </ul></div></div>
     <footer>Mean Idle Thrust FPA table (BCS1/BCS3)<br>Interpolated between table points · verify against FCOM</footer>
   </section>
 </div>
 
+<script>var DATA={"maxalt":{"bcs1":{"weights":[38000,40000,42000,44000,46000,48000,50000,52000,54000,56000,58000],"isa":{"38000":[410,410,410,410,410,410,410,410],"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,400],"44000":[410,410,410,410,410,410,410,390],"46000":[410,410,410,410,410,410,400,380],"48000":[410,410,410,410,410,400,400,370],"50000":[400,400,400,400,400,400,390,360],"52000":[390,390,390,390,390,390,380,360],"54000":[380,390,390,380,380,380,380,350],"56000":[380,380,380,380,380,370,370,350],"58000":[370,370,370,370,370,370,360,340]},"p10":{"38000":[410,410,410,410,410,410,410,410],"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,390],"44000":[410,410,410,410,410,410,410,390],"46000":[410,410,410,410,410,410,400,380],"48000":[410,410,410,410,410,400,400,370],"50000":[400,400,400,400,400,400,390,360],"52000":[390,390,390,390,390,390,380,360],"54000":[380,390,390,380,380,380,370,350],"56000":[380,380,380,380,380,370,370,340],"58000":[370,370,370,370,370,370,360,320]},"p20":{"38000":[410,410,410,410,410,410,410,380],"40000":[410,410,410,410,410,410,400,370],"42000":[410,410,410,410,410,410,400,360],"44000":[410,410,410,410,410,400,390,360],"46000":[410,410,410,410,400,390,380,340],"48000":[400,400,400,400,390,390,370,310],"50000":[400,400,390,390,390,380,370,280],"52000":[390,390,390,380,380,370,360,280],"54000":[380,380,380,380,370,360,360,280],"56000":[370,380,370,370,370,360,340,null],"58000":[370,370,370,360,360,350,320,null]}},"bcs3":{"weights":[40000,42000,44000,46000,48000,50000,52000,54000,56000,58000,60000,62000,64000],"isa":{"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,390],"44000":[410,410,410,410,410,410,410,380],"46000":[410,410,410,410,410,410,400,370],"48000":[410,410,410,400,400,400,390,370],"50000":[400,400,400,400,400,390,390,360],"52000":[390,390,390,390,390,380,380,350],"54000":[380,380,380,380,380,380,370,350],"56000":[380,380,380,370,370,370,360,340],"58000":[370,370,370,370,370,360,360,330],"60000":[360,360,360,360,360,360,350,330],"62000":[360,360,360,360,360,350,350,320],"64000":[350,350,350,350,350,350,340,320]},"p10":{"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,390],"44000":[410,410,410,410,410,410,410,380],"46000":[410,410,410,410,410,410,400,370],"48000":[410,410,410,400,400,400,390,360],"50000":[400,400,400,400,390,390,380,360],"52000":[390,390,390,390,390,380,380,350],"54000":[380,380,380,380,380,380,370,340],"56000":[370,380,380,370,370,370,360,320],"58000":[370,370,370,370,370,360,360,300],"60000":[360,360,360,360,360,360,350,280],"62000":[360,360,360,360,360,350,340,280],"64000":[350,350,350,350,350,350,330,280]},"p20":{"40000":[410,410,410,410,410,410,400,360],"42000":[410,410,410,410,410,400,390,360],"44000":[410,410,410,410,410,400,380,290],"46000":[410,410,410,400,400,390,370,280],"48000":[400,400,400,390,390,380,370,null],"50000":[390,400,390,390,380,370,360,null],"52000":[390,390,380,380,370,370,360,null],"54000":[380,380,380,370,370,360,340,null],"56000":[370,370,370,360,360,360,310,null],"58000":[370,370,360,360,360,340,280,null],"60000":[360,360,360,350,350,330,280,null],"62000":[350,350,350,340,340,320,280,null],"64000":[350,350,340,330,330,310,null,null]}}},"recalt":{"bcs1":{"tow":[40000,42000,44000,46000,48000,50000,52000,54000,56000,58000,60000,62000,63730],"data":{"40000":[null,null,320,380,410,410],"42000":[null,null,320,370,410,410],"44000":[null,null,310,370,400,410],"46000":[null,null,310,360,400,410],"48000":[null,null,300,350,390,410],"50000":[null,null,300,350,380,400],"52000":[null,null,290,340,380,390],"54000":[null,null,290,340,370,390],"56000":[null,null,280,330,370,380],"58000":[null,null,280,330,360,370],"60000":[null,null,270,320,360,370],"62000":[null,null,270,320,350,360],"63730":[null,null,270,310,340,360]}},"bcs3":{"tow":[42000,45000,48000,51000,54000,57000,60000,63000,66000,69000,70900],"data":{"42000":[null,null,310,370,400,410],"45000":[null,null,310,360,390,410],"48000":[null,null,300,350,380,400],"51000":[null,null,290,340,380,390],"54000":[null,null,290,330,370,380],"57000":[null,null,280,330,360,370],"60000":[null,null,270,320,350,360],"63000":[null,null,260,310,340,360],"66000":[null,null,260,310,330,350],"69000":[null,null,250,300,330,340],"70900":[null,null,250,290,320,320]}}}};</script>
 <script>
 (function(){
   "use strict";
+  var variant=null;
+  var TEMP_LABEL={isa:"ISA or below",p10:"ISA +10 °C",p20:"ISA +20 °C"};
+  function fmt(n){return n.toLocaleString("de-CH").replace(/\u2019/g,"'");}
 
-  /* ---------- Navigation ---------- */
-  window.go = function(name){
-    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  window.go=function(name){
+    document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
     document.getElementById("v-"+name).classList.add("active");
+    var b=document.getElementById("badge");
+    if(name==="variant"||!variant){b.classList.remove("show");}else{b.classList.add("show");}
+    if(name==="maxalt")mRender();
+    if(name==="recalt")rRender();
+    if(name==="fpa")fRender();
     window.scrollTo(0,0);
   };
-
-  function fmt(n){ return n.toLocaleString("de-CH").replace(/’/g,"'"); }
-
-  /* =========================================================
-     CRUISE ALTITUDE  (data 1:1 from FCOM 2 screenshot, no interpolation)
-     ========================================================= */
-  const C_WEIGHTS = [38000,40000,42000,44000,46000,48000,50000,52000,54000,56000,58000];
-  const C_ISA = {
-    38000:[410,410,410,410,410,410,410,410], 40000:[410,410,410,410,410,410,410,400],
-    42000:[410,410,410,410,410,410,410,400], 44000:[410,410,410,410,410,410,410,390],
-    46000:[410,410,410,410,410,410,400,380], 48000:[410,410,410,410,410,400,400,370],
-    50000:[400,400,400,400,400,400,390,360], 52000:[390,390,390,390,390,390,380,360],
-    54000:[380,390,390,380,380,380,380,350], 56000:[380,380,380,380,380,370,370,350],
-    58000:[370,370,370,370,370,370,360,340]
-  };
-  const C_P10 = {
-    38000:[410,410,410,410,410,410,410,410], 40000:[410,410,410,410,410,410,410,400],
-    42000:[410,410,410,410,410,410,410,390], 44000:[410,410,410,410,410,410,410,390],
-    46000:[410,410,410,410,410,410,400,380], 48000:[410,410,410,410,410,400,400,370],
-    50000:[400,400,400,400,400,400,390,360], 52000:[390,390,390,390,390,390,380,360],
-    54000:[380,390,390,380,380,380,370,350], 56000:[380,380,380,380,380,370,370,340],
-    58000:[370,370,370,370,370,370,360,320]
+  window.setVariant=function(v){
+    variant=v;
+    var b=document.getElementById("badge");b.textContent=v.toUpperCase();b.classList.add("show");
+    document.getElementById("tools-sub").textContent=(v==="bcs1"?"A220-100 · BCS1":"A220-300 · BCS3");
+    mGw=(v==="bcs1"?52000:54000);
+    rTow=(v==="bcs1"?58000:60000);
+    document.getElementById("m-sub").textContent=(v==="bcs1"?"A220-100 · BCS1 · Cruise Ceiling (AEO)":"A220-300 · BCS3 · Cruise Ceiling (AEO)");
+    document.getElementById("r-sub").textContent=(v==="bcs1"?"A220-100 · BCS1 · Normal Ops · ISA":"A220-300 · BCS3 · Normal Ops · ISA");
+    document.getElementById("m-foot").innerHTML="FCOM 2 · 05 Performance · Enroute (AEO) · "+v.toUpperCase()+"<br>Conservative — weight rounded up, lower FL selected · verify against FCOM";
+    document.getElementById("r-foot").innerHTML="FCOM — Recommended &amp; optimum altitude · "+v.toUpperCase()+" · ISA<br>Conservative — TOW rounded up, lower FL selected · verify against FCOM";
+    go("tools");
   };
 
-  let cTemp="isa", cMach=5, cGw=52000;
-  const cGwEl=document.getElementById("c-gw");
-  const cFl=document.getElementById("c-fl"), cMeta=document.getElementById("c-meta"), cFlag=document.getElementById("c-flag");
+  function rowUp(weights,w){
+    if(w<=weights[0]) return {row:weights[0],note:w<weights[0]?"Conservative · "+fmt(weights[0])+" kg row":null};
+    for(var i=0;i<weights.length;i++){ if(w<=weights[i]) return {row:weights[i],note:(w===weights[i]?null:"Conservative · "+fmt(weights[i])+" kg row (lower FL)")}; }
+    return {row:null,note:null,over:fmt(weights[weights.length-1])};
+  }
 
-  function cRow(w){
-    // Conservative: round weight UP to next table row -> yields the LOWER (safer) FL.
-    if(w<=C_WEIGHTS[0]) return {row:C_WEIGHTS[0], note: w<C_WEIGHTS[0] ? "Conservative · 38 000 kg row" : null};
-    for(let i=0;i<C_WEIGHTS.length;i++){
-      if(w<=C_WEIGHTS[i]) return {row:C_WEIGHTS[i], note:(w===C_WEIGHTS[i]?null:"Conservative · "+fmt(C_WEIGHTS[i])+" kg row (lower FL)")};
+  /* MAX CRUISE ALT */
+  var mTemp="isa",mMach=5,mGw=52000;
+  var mGwEl=document.getElementById("m-gw"),mFl=document.getElementById("m-fl"),mMeta=document.getElementById("m-meta"),mFlag=document.getElementById("m-flag");
+  function mRender(){
+    var cfg=DATA.maxalt[variant];
+    mGwEl.value=mGw?fmt(mGw):"";
+    var r=rowUp(cfg.weights,mGw);
+    mFlag.style.display="none";mFl.classList.remove("na");
+    if(r.row===null){mFl.innerHTML="Outside table";mFl.classList.add("na");mMeta.textContent="Max weight "+r.over+" kg";return;}
+    var val=cfg[mTemp][String(r.row)][mMach];
+    var mTxt=document.querySelector('#m-mach button[data-m="'+mMach+'"]').textContent;
+    if(val===null){
+      mFl.innerHTML="Not available";mFl.classList.add("na");
+      mMeta.innerHTML="<b>"+fmt(r.row)+" kg</b> · M "+mTxt+" · "+TEMP_LABEL[mTemp]+" — Mach not available";
+      return;
     }
-    return {row:null, note:"above table – max 58 000 kg"};
+    mFl.innerHTML='<span class="pre">FL</span>'+val;
+    mMeta.innerHTML="<b>"+fmt(r.row)+" kg</b> · M "+mTxt+" · "+TEMP_LABEL[mTemp];
+    if(r.note){mFlag.style.display="inline-block";mFlag.textContent=r.note;}
   }
-  function cRender(){
-    cGwEl.value = cGw?fmt(cGw):"";
-    const tbl = cTemp==="isa"?C_ISA:C_P10, r=cRow(cGw);
-    cFlag.style.display="none"; cFl.classList.remove("na");
-    if(r.row===null){ cFl.innerHTML="Outside table"; cFl.classList.add("na"); cMeta.textContent="Max weight 58 000 kg"; return; }
-    const fl=tbl[r.row][cMach];
-    cFl.innerHTML='<span class="pre">FL</span>'+fl;
-    const mTxt=document.querySelector('#c-mach button[data-m="'+cMach+'"]').textContent;
-    const tTxt=cTemp==="isa"?"ISA or below":"ISA +10 °C";
-    cMeta.innerHTML="<b>"+fmt(r.row)+" kg</b> · M "+mTxt+" · "+tTxt;
-    if(r.note){ cFlag.style.display="inline-block"; cFlag.textContent=r.note; }
-  }
-  document.getElementById("c-temp").addEventListener("click",function(e){
-    const b=e.target.closest("button"); if(!b) return; cTemp=b.dataset.t;
-    this.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); cRender();
-  });
-  document.getElementById("c-mach").addEventListener("click",function(e){
-    const b=e.target.closest("button"); if(!b) return; cMach=parseInt(b.dataset.m,10);
-    this.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); cRender();
-  });
-  function cClamp(v){ if(isNaN(v)) return 0; return Math.max(0,Math.min(80000,v)); }
-  document.querySelectorAll("[data-c-step]").forEach(btn=>{
-    btn.addEventListener("click",()=>{ const s=parseInt(btn.dataset.cStep,10); cGw=cClamp(Math.round((cGw+s)/500)*500); cRender(); });
-  });
-  cGwEl.addEventListener("input",function(){ cGw=cClamp(parseInt(this.value.replace(/[^0-9]/g,""),10)); cRender(); this.setSelectionRange(this.value.length,this.value.length); });
-  cGwEl.addEventListener("focus",function(){ this.select(); });
+  document.getElementById("m-temp").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;mTemp=b.dataset.t;this.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b);});mRender();});
+  document.getElementById("m-mach").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;mMach=parseInt(b.dataset.m,10);this.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b);});mRender();});
+  function clamp(v,hi){return isNaN(v)?0:Math.max(0,Math.min(hi,v));}
+  document.querySelectorAll("[data-m-step]").forEach(function(btn){btn.addEventListener("click",function(){mGw=clamp(Math.round((mGw+parseInt(btn.dataset.mStep,10))/500)*500,90000);mRender();});});
+  mGwEl.addEventListener("input",function(){mGw=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),90000);mRender();this.setSelectionRange(this.value.length,this.value.length);});
+  mGwEl.addEventListener("focus",function(){this.select();});
 
-  /* =========================================================
-     FPA  (table + interpolation + wind + validation 1:1 from original app)
-     ========================================================= */
-  const fpaTable = {
-    40000:{200:-2.8,225:-3.1,250:-3.5,275:-4.0,300:-4.7},
-    45000:{200:-2.8,225:-3.0,250:-3.3,275:-3.7,300:-4.2},
-    50000:{200:-2.8,225:-2.8,250:-3.1,275:-3.4,300:-3.9},
-    55000:{200:null,225:-2.8,250:-3.0,275:-3.3,300:-3.7},
-    60000:{200:null,225:-2.8,250:-2.9,275:-3.0,300:-3.4}
-  };
-  const F_W=[40000,45000,50000,55000,60000];
-  const F_I=[200,225,250,275,300];
-
-  function interpolate(w1,w2,fpa1,fpa2,w){
-    if(fpa1===null||fpa2===null) return fpa1||fpa2;
-    return fpa1+(fpa2-fpa1)*(w-w1)/(w2-w1);
+  /* RECOMMENDED ALT */
+  var rDist=3,rTow=58000;
+  var rTowEl=document.getElementById("r-tow"),rFl=document.getElementById("r-fl"),rMeta=document.getElementById("r-meta"),rFlag=document.getElementById("r-flag");
+  var D_LABEL=["100","150","200","250","300","> 300"];
+  function rRender(){
+    var cfg=DATA.recalt[variant];
+    rTowEl.value=rTow?fmt(rTow):"";
+    var r=rowUp(cfg.tow,rTow);
+    rFlag.style.display="none";rFl.classList.remove("na");
+    if(r.row===null){rFl.innerHTML="Outside table";rFl.classList.add("na");rMeta.textContent="Max TOW "+r.over+" kg";return;}
+    var val=cfg.data[String(r.row)][rDist];
+    var dTxt=D_LABEL[rDist]+" NM";
+    if(val===null){
+      rFl.innerHTML="Not applicable";rFl.classList.add("na");
+      rMeta.innerHTML="<b>"+fmt(r.row)+" kg</b> · "+dTxt+" — no cruise level for this air distance";
+      return;
+    }
+    rFl.innerHTML='<span class="pre">FL</span>'+val;
+    rMeta.innerHTML="<b>"+fmt(r.row)+" kg</b> · "+dTxt+" · ISA";
+    if(r.note){rFlag.style.display="inline-block";rFlag.textContent=r.note;}
   }
+  document.getElementById("r-dist").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;rDist=parseInt(b.dataset.d,10);this.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b);});rRender();});
+  document.querySelectorAll("[data-r-step]").forEach(function(btn){btn.addEventListener("click",function(){rTow=clamp(Math.round((rTow+parseInt(btn.dataset.rStep,10))/500)*500,99000);rRender();});});
+  rTowEl.addEventListener("input",function(){rTow=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),99000);rRender();this.setSelectionRange(this.value.length,this.value.length);});
+  rTowEl.addEventListener("focus",function(){this.select();});
+
+  /* FPA (shared) */
+  var fpaTable={40000:{200:-2.8,225:-3.1,250:-3.5,275:-4.0,300:-4.7},45000:{200:-2.8,225:-3.0,250:-3.3,275:-3.7,300:-4.2},50000:{200:-2.8,225:-2.8,250:-3.1,275:-3.4,300:-3.9},55000:{200:null,225:-2.8,250:-3.0,275:-3.3,300:-3.7},60000:{200:null,225:-2.8,250:-2.9,275:-3.0,300:-3.4}};
+  var F_W=[40000,45000,50000,55000,60000],F_I=[200,225,250,275,300];
+  function interp(w1,w2,a,b,w){if(a===null||b===null)return a||b;return a+(b-a)*(w-w1)/(w2-w1);}
   function getFPA(weight,ias){
-    let w1,w2;
-    for(let i=0;i<F_W.length-1;i++){ if(weight>=F_W[i]&&weight<=F_W[i+1]){w1=F_W[i];w2=F_W[i+1];break;} }
-    if(!w1){ if(weight<F_W[0]) return null; w1=F_W[F_W.length-2]; w2=F_W[F_W.length-1]; }
-    let i1,i2;
-    for(let i=0;i<F_I.length-1;i++){ if(ias>=F_I[i]&&ias<=F_I[i+1]){i1=F_I[i];i2=F_I[i+1];break;} }
-    if(!i1){ if(ias<F_I[0]) return null; i1=F_I[F_I.length-2]; i2=F_I[F_I.length-1]; }
-    const a=fpaTable[w1][i1], b=fpaTable[w2][i1], c=fpaTable[w1][i2], d=fpaTable[w2][i2];
-    if(!a||!b||!c||!d){
-      const fw1=interpolate(i1,i2,a||c,c||a,ias);
-      const fw2=interpolate(i1,i2,b||d,d||b,ias);
-      return interpolate(w1,w2,fw1,fw2,weight);
-    }
-    const fw1=interpolate(i1,i2,a,c,ias), fw2=interpolate(i1,i2,b,d,ias);
-    return interpolate(w1,w2,fw1,fw2,weight);
+    var w1,w2,i,i1,i2;
+    for(i=0;i<F_W.length-1;i++){if(weight>=F_W[i]&&weight<=F_W[i+1]){w1=F_W[i];w2=F_W[i+1];break;}}
+    if(!w1){if(weight<F_W[0])return null;w1=F_W[F_W.length-2];w2=F_W[F_W.length-1];}
+    for(i=0;i<F_I.length-1;i++){if(ias>=F_I[i]&&ias<=F_I[i+1]){i1=F_I[i];i2=F_I[i+1];break;}}
+    if(!i1){if(ias<F_I[0])return null;i1=F_I[F_I.length-2];i2=F_I[F_I.length-1];}
+    var a=fpaTable[w1][i1],b=fpaTable[w2][i1],c=fpaTable[w1][i2],d=fpaTable[w2][i2];
+    if(!a||!b||!c||!d){var q1=interp(i1,i2,a||c,c||a,ias),q2=interp(i1,i2,b||d,d||b,ias);return interp(w1,w2,q1,q2,weight);}
+    var f1=interp(i1,i2,a,c,ias),f2=interp(i1,i2,b,d,ias);return interp(w1,w2,f1,f2,weight);
   }
-
-  let fGw=50000, fIas=250, fWind="none", fWs=0;
-  const fGwEl=document.getElementById("f-gw"), fIasEl=document.getElementById("f-ias"), fWsEl=document.getElementById("f-ws");
-  const fFinal=document.getElementById("f-final"), fMeta=document.getElementById("f-meta"),
-        fBase=document.getElementById("f-base"), fCorr=document.getElementById("f-corr"),
-        fRows=document.getElementById("f-rows");
-
-  function deg(v){ return (v>=0?"+":"−")+Math.abs(v).toFixed(1)+"°"; } // FPA neg → shows −x.x°
+  var fGw=50000,fIas=250,fWind="none",fWs=0;
+  var fGwEl=document.getElementById("f-gw"),fIasEl=document.getElementById("f-ias"),fWsEl=document.getElementById("f-ws"),
+      fFinal=document.getElementById("f-final"),fMeta=document.getElementById("f-meta"),fBase=document.getElementById("f-base"),fCorr=document.getElementById("f-corr"),fRows=document.getElementById("f-rows");
   function fRender(){
-    fGwEl.value=fGw?fmt(fGw):""; fIasEl.value=fIas||""; fWsEl.value=(fWs||fWs===0)?String(fWs):"";
-    // validation (identical rules to source app)
-    let err=null;
-    if(fGw<40000||fGw>60000) err="Weight must be 40 000 – 60 000 kg";
-    else if(fIas<200||fIas>300) err="IAS must be 200 – 300 kt";
-    else if(fGw>=55000&&fIas<=200) err="IAS 200 kt N/A for weight ≥ 55 000 kg";
-    if(err){
-      fFinal.classList.add("na"); fFinal.textContent=err; fMeta.textContent=""; fRows.style.display="none"; return;
-    }
-    const base=getFPA(fGw,fIas);
-    if(base===null){
-      fFinal.classList.add("na"); fFinal.textContent="Outside table limits"; fMeta.textContent=""; fRows.style.display="none"; return;
-    }
-    let corr=0;
-    if(fWind!=="none"){ corr=fWs*(fWind==="headwind"?-0.01:0.01); }
-    const final=base+corr;
+    fGwEl.value=fGw?fmt(fGw):"";fIasEl.value=fIas||"";fWsEl.value=(fWs||fWs===0)?String(fWs):"";
+    var err=null;
+    if(fGw<40000||fGw>60000)err="Weight must be 40 000 – 60 000 kg";
+    else if(fIas<200||fIas>300)err="IAS must be 200 – 300 kt";
+    else if(fGw>=55000&&fIas<=200)err="IAS 200 kt N/A for weight ≥ 55 000 kg";
+    if(err){fFinal.classList.add("na");fFinal.textContent=err;fMeta.textContent="";fRows.style.display="none";return;}
+    var base=getFPA(fGw,fIas);
+    if(base===null){fFinal.classList.add("na");fFinal.textContent="Outside table limits";fMeta.textContent="";fRows.style.display="none";return;}
+    var corr=0;if(fWind!=="none"){corr=fWs*(fWind==="headwind"?-0.01:0.01);}
+    var final=base+corr;
     fFinal.classList.remove("na");
     fFinal.textContent=(final>=0?"+":"−")+Math.abs(final).toFixed(1)+"°";
     fBase.textContent=(base>=0?"+":"−")+Math.abs(base).toFixed(1)+"°";
     fCorr.textContent=(corr>=0?"+":"−")+Math.abs(corr).toFixed(2)+"°";
-    const wTxt=fWind==="none"?"no wind":(fWind+" "+fWs+" kt");
-    fMeta.innerHTML="<b>"+fmt(fGw)+" kg</b> · "+fIas+" kt · "+wTxt;
+    fMeta.innerHTML="<b>"+fmt(fGw)+" kg</b> · "+fIas+" kt · "+(fWind==="none"?"no wind":(fWind+" "+fWs+" kt"));
     fRows.style.display="";
   }
-  document.getElementById("f-wind").addEventListener("click",function(e){
-    const b=e.target.closest("button"); if(!b) return; fWind=b.dataset.w;
-    this.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
-    document.getElementById("f-wsGroup").style.display = fWind==="none" ? "none":"block";
-    if(fWind==="none") fWs=0;
-    fRender();
-  });
-  function clampW(v){ if(isNaN(v)) return 0; return Math.max(0,Math.min(70000,v)); }
-  function clampI(v){ if(isNaN(v)) return 0; return Math.max(0,Math.min(400,v)); }
-  function clampWs(v){ if(isNaN(v)) return 0; return Math.max(0,Math.min(50,v)); }
-  document.querySelectorAll("[data-f-wstep]").forEach(btn=>btn.addEventListener("click",()=>{ fGw=clampW(Math.round((fGw+parseInt(btn.dataset.fWstep,10))/500)*500); fRender(); }));
-  document.querySelectorAll("[data-f-istep]").forEach(btn=>btn.addEventListener("click",()=>{ fIas=clampI(Math.round((fIas+parseInt(btn.dataset.fIstep,10))/5)*5); fRender(); }));
-  document.querySelectorAll("[data-f-wsstep]").forEach(btn=>btn.addEventListener("click",()=>{ fWs=clampWs(Math.round((fWs+parseInt(btn.dataset.fWsstep,10))/5)*5); fRender(); }));
-  fGwEl.addEventListener("input",function(){ fGw=clampW(parseInt(this.value.replace(/[^0-9]/g,""),10)); fRender(); this.setSelectionRange(this.value.length,this.value.length); });
-  fIasEl.addEventListener("input",function(){ fIas=clampI(parseInt(this.value.replace(/[^0-9]/g,""),10)); fRender(); this.setSelectionRange(this.value.length,this.value.length); });
-  fWsEl.addEventListener("input",function(){ fWs=clampWs(parseInt(this.value.replace(/[^0-9]/g,""),10)); fRender(); this.setSelectionRange(this.value.length,this.value.length); });
-  [fGwEl,fIasEl,fWsEl].forEach(el=>el.addEventListener("focus",function(){ this.select(); }));
-
-  /* init */
-  cRender(); fRender();
+  document.getElementById("f-wind").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;fWind=b.dataset.w;this.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b);});document.getElementById("f-wsGroup").style.display=fWind==="none"?"none":"block";if(fWind==="none")fWs=0;fRender();});
+  document.querySelectorAll("[data-f-wstep]").forEach(function(btn){btn.addEventListener("click",function(){fGw=clamp(Math.round((fGw+parseInt(btn.dataset.fWstep,10))/500)*500,70000);fRender();});});
+  document.querySelectorAll("[data-f-istep]").forEach(function(btn){btn.addEventListener("click",function(){fIas=clamp(Math.round((fIas+parseInt(btn.dataset.fIstep,10))/5)*5,400);fRender();});});
+  document.querySelectorAll("[data-f-wsstep]").forEach(function(btn){btn.addEventListener("click",function(){fWs=clamp(Math.round((fWs+parseInt(btn.dataset.fWsstep,10))/5)*5,50);fRender();});});
+  fGwEl.addEventListener("input",function(){fGw=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),70000);fRender();this.setSelectionRange(this.value.length,this.value.length);});
+  fIasEl.addEventListener("input",function(){fIas=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),400);fRender();this.setSelectionRange(this.value.length,this.value.length);});
+  fWsEl.addEventListener("input",function(){fWs=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),50);fRender();this.setSelectionRange(this.value.length,this.value.length);});
+  [fGwEl,fIasEl,fWsEl].forEach(function(el){el.addEventListener("focus",function(){this.select();});});
 })();
 </script>
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('sw.js').catch(function(){});
-  });
-}
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 </script>
 </body>
 </html>
