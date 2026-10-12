@@ -41,6 +41,8 @@
   .tile .chev{color:var(--swiss-red);flex:0 0 auto}
   .tile .chev svg{width:18px;height:18px;display:block}
   .tile.variant .tt{font-size:22px;letter-spacing:.04em}
+  .ghead{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:2px 0 12px}
+  .ghead.mt{margin-top:30px}
   .field{margin-bottom:24px}
   .label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
   .hint{font-size:11px;color:var(--faint);margin-top:8px;letter-spacing:.01em;line-height:1.4}
@@ -78,6 +80,36 @@
   .cond li{font-size:12px;color:var(--muted);padding:3px 0 3px 16px;position:relative;line-height:1.4}
   .cond li::before{content:"";position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:var(--swiss-red)}
   footer{margin-top:22px;text-align:center;font-size:10px;letter-spacing:.06em;color:var(--faint);line-height:1.6}
+  /* ---- Koordinaten → Lido (scoped) ---- */
+  #v-lido .lido-field{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  #v-lido .lido-ta{width:100%;min-height:118px;resize:vertical;background:var(--panel);color:var(--ink);border:1px solid var(--hair);border-radius:10px;padding:12px 13px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:15px;line-height:1.5}
+  #v-lido .lido-ta:focus{outline:2px solid var(--swiss-red);outline-offset:1px;border-color:transparent}
+  #v-lido .lido-ta::placeholder{color:var(--faint)}
+  #v-lido .lido-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  #v-lido .lido-btn{border:1px solid var(--hair);background:var(--bg);color:var(--ink);border-radius:9px;padding:11px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  #v-lido .lido-btn:active{background:var(--panel)}
+  #v-lido .lido-btn-primary{background:var(--swiss-red);border-color:var(--swiss-red);color:#fff}
+  #v-lido .lido-seg{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 8px}
+  #v-lido .lido-seg button{flex:1 1 auto;border:1px solid var(--hair);background:var(--bg);color:var(--muted);border-radius:8px;padding:10px 10px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  #v-lido .lido-seg button[aria-pressed="true"]{background:var(--swiss-red);border-color:var(--swiss-red);color:#fff}
+  #v-lido .lido-seghint{font-size:11px;color:var(--faint);margin:0 0 20px;line-height:1.4}
+  #v-lido .lido-seghint code{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+  #v-lido .lido-results{margin:0;padding:0;list-style:none}
+  #v-lido .lido-res{border-top:1px solid var(--hair);padding:16px 0;display:grid;grid-template-columns:1.6rem 1fr auto;gap:4px 12px;align-items:start}
+  #v-lido .lido-idx{grid-row:1/3;font-size:12px;color:var(--faint);padding-top:6px;font-family:ui-monospace,Menlo,monospace}
+  #v-lido .lido-val{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:21px;font-weight:600;letter-spacing:.01em;color:var(--swiss-red);word-break:break-all;line-height:1.3}
+  #v-lido .lido-alt{grid-column:2;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--faint);margin-top:4px;word-break:break-all}
+  #v-lido .lido-copy{grid-row:1/3;align-self:center;border:1px solid var(--hair);background:var(--bg);color:var(--ink);border-radius:9px;padding:9px 13px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+  #v-lido .lido-copy.done{border-color:#0F7A3D;color:#0F7A3D}
+  #v-lido .lido-allbar{border-top:2px solid var(--swiss-red);margin-top:0;padding-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  #v-lido .lido-count{font-size:13px;color:var(--muted);margin-right:auto}
+  #v-lido .lido-note{background:var(--panel);border-left:3px solid var(--swiss-red);padding:11px 13px;margin:20px 0 0;font-size:13px;color:var(--ink);border-radius:0 8px 8px 0}
+  #v-lido .lido-note b{font-weight:700}
+  #v-lido .lido-empty{color:var(--muted);font-size:15px;padding:28px 0;border-top:1px solid var(--hair)}
+  #v-lido .lido-bad{color:var(--warn);font-size:13px;padding:12px 0;border-top:1px solid var(--hair)}
+  #toast{position:fixed;left:50%;transform:translateX(-50%) translateY(1.5rem);bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));background:var(--ink);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;z-index:50}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media (prefers-reduced-motion:reduce){#toast{transition:none}}
 </style>
 </head>
 <body>
@@ -90,10 +122,13 @@
   <hr class="rule">
 
   <section class="view active" id="v-variant">
-    <h1>A220 Performance Tools</h1>
-    <p class="sub">Zuerst Muster wählen</p>
+    <h1>A220 Cockpit Tools</h1>
+    <p class="sub">Kategorie wählen</p>
+    <div class="ghead">Performance Tools</div>
     <button class="tile variant" onclick="setVariant('bcs1')"><span><span class="tt">BCS1</span><span class="td">A220-100</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     <button class="tile variant" onclick="setVariant('bcs3')"><span><span class="tt">BCS3</span><span class="td">A220-300</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
+    <div class="ghead mt">LIDO Converter</div>
+    <button class="tile" onclick="go('lido')"><span><span class="tt">Koordinaten → Lido</span><span class="td">NOTAM-Koordinaten ins mPilot-Format</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></button>
     <footer>Muster jederzeit oben rechts umschaltbar</footer>
   </section>
 
@@ -199,7 +234,44 @@
     </ul></div></div>
     <footer>Mean Idle Thrust FPA table (BCS1/BCS3)<br>Interpolated between table points · verify against FCOM</footer>
   </section>
+
+  <section class="view" id="v-lido">
+    <button class="back" onclick="go('variant')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Menü</button>
+    <h1>Koordinaten → Lido</h1>
+    <p class="sub">NOTAM einfügen · Format wählen · kopieren</p>
+
+    <label class="lido-field" for="src">NOTAM-Text oder Koordinaten</label>
+    <textarea id="src" class="lido-ta" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="GNSS UNRELIABLE DUE TO INTERFERENCE FM SFC UP TO FL660 FROM 402820N 0033339W UP TO 100NM RADIUS …"></textarea>
+
+    <div class="lido-row">
+      <button class="lido-btn" id="paste" type="button" hidden>Aus Zwischenablage einfügen</button>
+      <button class="lido-btn" id="clear" type="button">Leeren</button>
+    </div>
+
+    <div class="lido-seg" id="seg" role="group" aria-label="Ausgabeformat">
+      <button type="button" data-fmt="dm" aria-pressed="true">Grad/Min</button>
+      <button type="button" data-fmt="dmcat" aria-pressed="false">Kompakt</button>
+      <button type="button" data-fmt="dmwhole" aria-pressed="false">Ganze Min</button>
+      <button type="button" data-fmt="dms" aria-pressed="false">Grad/Min/Sek</button>
+      <button type="button" data-fmt="dec" aria-pressed="false">Dezimal</button>
+    </div>
+    <p class="lido-seghint" id="seghint"></p>
+
+    <ul class="lido-results" id="results"></ul>
+    <div id="msg"></div>
+
+    <div class="lido-allbar" id="allbar" hidden>
+      <span class="lido-count" id="count"></span>
+      <button class="lido-btn" id="copyall" type="button">Alle untereinander</button>
+      <button class="lido-btn lido-btn-primary" id="copyroute" type="button">Als Linie kopieren</button>
+    </div>
+
+    <div class="lido-note" id="lidoCtx" hidden></div>
+
+    <footer>Läuft vollständig offline · keine Daten verlassen das Gerät<br>Rundung auf Zehntelminuten (≈ 185 m) · für exakte Punkte Grad/Min/Sek</footer>
+  </section>
 </div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>var DATA={"maxalt":{"bcs1":{"weights":[38000,40000,42000,44000,46000,48000,50000,52000,54000,56000,58000],"isa":{"38000":[410,410,410,410,410,410,410,410],"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,400],"44000":[410,410,410,410,410,410,410,390],"46000":[410,410,410,410,410,410,400,380],"48000":[410,410,410,410,410,400,400,370],"50000":[400,400,400,400,400,400,390,360],"52000":[390,390,390,390,390,390,380,360],"54000":[380,390,390,380,380,380,380,350],"56000":[380,380,380,380,380,370,370,350],"58000":[370,370,370,370,370,370,360,340]},"p10":{"38000":[410,410,410,410,410,410,410,410],"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,390],"44000":[410,410,410,410,410,410,410,390],"46000":[410,410,410,410,410,410,400,380],"48000":[410,410,410,410,410,400,400,370],"50000":[400,400,400,400,400,400,390,360],"52000":[390,390,390,390,390,390,380,360],"54000":[380,390,390,380,380,380,370,350],"56000":[380,380,380,380,380,370,370,340],"58000":[370,370,370,370,370,370,360,320]},"p20":{"38000":[410,410,410,410,410,410,410,380],"40000":[410,410,410,410,410,410,400,370],"42000":[410,410,410,410,410,410,400,360],"44000":[410,410,410,410,410,400,390,360],"46000":[410,410,410,410,400,390,380,340],"48000":[400,400,400,400,390,390,370,310],"50000":[400,400,390,390,390,380,370,280],"52000":[390,390,390,380,380,370,360,280],"54000":[380,380,380,380,370,360,360,280],"56000":[370,380,370,370,370,360,340,null],"58000":[370,370,370,360,360,350,320,null]}},"bcs3":{"weights":[40000,42000,44000,46000,48000,50000,52000,54000,56000,58000,60000,62000,64000],"isa":{"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,390],"44000":[410,410,410,410,410,410,410,380],"46000":[410,410,410,410,410,410,400,370],"48000":[410,410,410,400,400,400,390,370],"50000":[400,400,400,400,400,390,390,360],"52000":[390,390,390,390,390,380,380,350],"54000":[380,380,380,380,380,380,370,350],"56000":[380,380,380,370,370,370,360,340],"58000":[370,370,370,370,370,360,360,330],"60000":[360,360,360,360,360,360,350,330],"62000":[360,360,360,360,360,350,350,320],"64000":[350,350,350,350,350,350,340,320]},"p10":{"40000":[410,410,410,410,410,410,410,400],"42000":[410,410,410,410,410,410,410,390],"44000":[410,410,410,410,410,410,410,380],"46000":[410,410,410,410,410,410,400,370],"48000":[410,410,410,400,400,400,390,360],"50000":[400,400,400,400,390,390,380,360],"52000":[390,390,390,390,390,380,380,350],"54000":[380,380,380,380,380,380,370,340],"56000":[370,380,380,370,370,370,360,320],"58000":[370,370,370,370,370,360,360,300],"60000":[360,360,360,360,360,360,350,280],"62000":[360,360,360,360,360,350,340,280],"64000":[350,350,350,350,350,350,330,280]},"p20":{"40000":[410,410,410,410,410,410,400,360],"42000":[410,410,410,410,410,400,390,360],"44000":[410,410,410,410,410,400,380,290],"46000":[410,410,410,400,400,390,370,280],"48000":[400,400,400,390,390,380,370,null],"50000":[390,400,390,390,380,370,360,null],"52000":[390,390,380,380,370,370,360,null],"54000":[380,380,380,370,370,360,340,null],"56000":[370,370,370,360,360,360,310,null],"58000":[370,370,360,360,360,340,280,null],"60000":[360,360,360,350,350,330,280,null],"62000":[350,350,350,340,340,320,280,null],"64000":[350,350,340,330,330,310,null,null]}}},"recalt":{"bcs1":{"tow":[40000,42000,44000,46000,48000,50000,52000,54000,56000,58000,60000,62000,63730],"data":{"40000":[null,null,320,380,410,410],"42000":[null,null,320,370,410,410],"44000":[null,null,310,370,400,410],"46000":[null,null,310,360,400,410],"48000":[null,null,300,350,390,410],"50000":[null,null,300,350,380,400],"52000":[null,null,290,340,380,390],"54000":[null,null,290,340,370,390],"56000":[null,null,280,330,370,380],"58000":[null,null,280,330,360,370],"60000":[null,null,270,320,360,370],"62000":[null,null,270,320,350,360],"63730":[null,null,270,310,340,360]}},"bcs3":{"tow":[42000,45000,48000,51000,54000,57000,60000,63000,66000,69000,70900],"data":{"42000":[null,null,310,370,400,410],"45000":[null,null,310,360,390,410],"48000":[null,null,300,350,380,400],"51000":[null,null,290,340,380,390],"54000":[null,null,290,330,370,380],"57000":[null,null,280,330,360,370],"60000":[null,null,270,320,350,360],"63000":[null,null,260,310,340,360],"66000":[null,null,260,310,330,350],"69000":[null,null,250,300,330,340],"70900":[null,null,250,290,320,320]}}}};</script>
 <script>
@@ -213,7 +285,7 @@
     document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
     document.getElementById("v-"+name).classList.add("active");
     var b=document.getElementById("badge");
-    if(name==="variant"||!variant){b.classList.remove("show");}else{b.classList.add("show");}
+    if(name==="variant"||name==="lido"||!variant){b.classList.remove("show");}else{b.classList.add("show");}
     if(name==="maxalt")mRender();
     if(name==="recalt")rRender();
     if(name==="fpa")fRender();
@@ -334,6 +406,169 @@
   fIasEl.addEventListener("input",function(){fIas=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),400);fRender();this.setSelectionRange(this.value.length,this.value.length);});
   fWsEl.addEventListener("input",function(){fWs=clamp(parseInt(this.value.replace(/[^0-9]/g,""),10),50);fRender();this.setSelectionRange(this.value.length,this.value.length);});
   [fGwEl,fIasEl,fWsEl].forEach(function(el){el.addEventListener("focus",function(){this.select();});});
+})();
+</script>
+<script>
+/* ---- Koordinaten → Lido (parse/format verbatim) ---- */
+(function(){
+"use strict";
+function load(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+function parse(text){
+  var T=text.toUpperCase();var found=[];var taken=[];
+  function free(a,b){for(var i=0;i<taken.length;i++){if(a<taken[i][1]&&b>taken[i][0])return false;}return true;}
+  function claim(a,b){taken.push([a,b])}
+  function hemi(one,two){if(one&&!two)return one;if(two&&!one)return two;return null;}
+  function push(m,lat,lon){
+    if(lat===null||lon===null)return;
+    if(!free(m.index,m.index+m[0].length))return;
+    claim(m.index,m.index+m[0].length);
+    found.push({lat:lat,lon:lon,start:m.index,raw:m[0].trim()});
+  }
+  var reSym=/([NS])?\s*(\d{1,3})\s*[°º]\s*(\d{1,2}(?:\.\d+)?)\s*['′]?\s*(?:(\d{1,2}(?:\.\d+)?)\s*["″]?)?\s*([NS])?\s*[,;\/]?\s*([EW])?\s*(\d{1,3})\s*[°º]\s*(\d{1,2}(?:\.\d+)?)\s*['′]?\s*(?:(\d{1,2}(?:\.\d+)?)\s*["″]?)?\s*([EW])?/g;
+  var m;
+  while((m=reSym.exec(T))!==null){
+    var hla=hemi(m[1],m[5]), hlo=hemi(m[6],m[10]);
+    if(!hla||!hlo)continue;
+    push(m, mk(+m[2],+m[3],m[4]?+m[4]:0,hla,true), mk(+m[7],+m[8],m[9]?+m[9]:0,hlo,false));
+  }
+  var rePack=/(?:^|[^A-Za-z0-9])([NS])?\s*(\d{6}(?:\.\d+)?|\d{4}(?:\.\d+)?)\s*([NS])?\s*[,;:\/]?\s*([EW])?\s*(\d{7}(?:\.\d+)?|\d{5}(?:\.\d+)?)\s*([EW])?/g;
+  while((m=rePack.exec(T))!==null){
+    var hA=hemi(m[1],m[3]), hO=hemi(m[4],m[6]);
+    if(!hA||!hO)continue;
+    push(m, unpack(m[2],hA,true), unpack(m[5],hO,false));
+  }
+  var reDec=/([NS])?\s*(-?\d{1,2}\.\d+)\s*[°º]?\s*([NS])?\s*[,;\s]+\s*([EW])?\s*(-?\d{1,3}\.\d+)\s*[°º]?\s*([EW])?/g;
+  while((m=reDec.exec(T))!==null){
+    var la=parseFloat(m[2]), lo=parseFloat(m[5]);
+    var ha=hemi(m[1],m[3]), ho=hemi(m[4],m[6]);
+    if(ha==="S")la=-Math.abs(la);
+    if(ha==="N")la=Math.abs(la);
+    if(ho==="W")lo=-Math.abs(lo);
+    if(ho==="E")lo=Math.abs(lo);
+    if(Math.abs(la)>90||Math.abs(lo)>180)continue;
+    push(m,la,lo);
+  }
+  found.sort(function(a,b){return a.start-b.start});
+  return found;
+}
+function mk(d,mi,s,h,isLat){
+  if(mi>=60||s>=60)return null;
+  var v=d+mi/60+s/3600;
+  if(isLat&&v>90)return null;
+  if(!isLat&&v>180)return null;
+  if(h==="S"||h==="W")v=-v;
+  return v;
+}
+function unpack(tok,h,isLat){
+  var intPart=tok.split(".")[0];var d,mi,s=0;
+  if(isLat){
+    if(intPart.length===6){ d=+tok.slice(0,2); mi=+tok.slice(2,4); s=parseFloat(tok.slice(4)); }
+    else if(intPart.length===4){ d=+tok.slice(0,2); mi=parseFloat(tok.slice(2)); }
+    else return null;
+  }else{
+    if(intPart.length===7){ d=+tok.slice(0,3); mi=+tok.slice(3,5); s=parseFloat(tok.slice(5)); }
+    else if(intPart.length===5){ d=+tok.slice(0,3); mi=parseFloat(tok.slice(3)); }
+    else return null;
+  }
+  return mk(d,mi,s,h,isLat);
+}
+function pad(n,w){var s=String(n);while(s.length<w)s="0"+s;return s}
+function dmParts(v,isLat,decimals){
+  var h=v<0?(isLat?"S":"W"):(isLat?"N":"E");
+  var a=Math.abs(v);var deg=Math.floor(a);var min=(a-deg)*60;
+  var f=Math.pow(10,decimals);min=Math.round(min*f+1e-9)/f;
+  if(min>=60){min-=60;deg+=1}
+  var mStr=min.toFixed(decimals);if(min<10)mStr="0"+mStr;
+  return {h:h,deg:pad(deg,isLat?2:3),min:mStr};
+}
+function dmsParts(v,isLat){
+  var h=v<0?(isLat?"S":"W"):(isLat?"N":"E");
+  var a=Math.abs(v);var tot=Math.round(a*3600+1e-9);
+  var deg=Math.floor(tot/3600);var min=Math.floor((tot-deg*3600)/60);var sec=tot-deg*3600-min*60;
+  return {h:h,deg:pad(deg,isLat?2:3),min:pad(min,2),sec:pad(sec,2)};
+}
+var FORMATS={
+  dm:{hint:"Standard für mPilot: <code>N4028.3W00333.7</code>",fn:function(p){var a=dmParts(p.lat,true,1),o=dmParts(p.lon,false,1);return a.h+a.deg+a.min+o.h+o.deg+o.min;}},
+  dmcat:{hint:"Ein Token ohne Leerzeichen: <code>4028.3N00333.7W</code>",fn:function(p){var a=dmParts(p.lat,true,1),o=dmParts(p.lon,false,1);return a.deg+a.min+a.h+o.deg+o.min+o.h;}},
+  dmwhole:{hint:"Kürzeste Eingabe, auf die Minute gerundet: <code>4028N00334W</code>",fn:function(p){var a=dmParts(p.lat,true,0),o=dmParts(p.lon,false,0);return a.deg+a.min.replace(/\..*/,"")+a.h+o.deg+o.min.replace(/\..*/,"")+o.h;}},
+  dms:{hint:"Volle NOTAM-Genauigkeit: <code>N402820W0033339</code>",fn:function(p){var a=dmsParts(p.lat,true),o=dmsParts(p.lon,false);return a.h+a.deg+a.min+a.sec+o.h+o.deg+o.min+o.sec;}},
+  dec:{hint:"Für Karten und Rechner: <code>40.47222, -3.56083</code>",fn:function(p){return p.lat.toFixed(5)+", "+p.lon.toFixed(5);}}
+};
+function human(p){var a=dmsParts(p.lat,true),o=dmsParts(p.lon,false);return a.deg+"°"+a.min+"'"+a.sec+'"'+a.h+"  "+o.deg+"°"+o.min+"'"+o.sec+'"'+o.h;}
+function copy(text,btn){
+  function ok(){toast("Kopiert");if(btn){var old=btn.textContent;btn.textContent="Kopiert";btn.classList.add("done");setTimeout(function(){btn.textContent=old;btn.classList.remove("done")},1400);}}
+  function fallback(){
+    var ta=document.createElement("textarea");ta.value=text;ta.setAttribute("readonly","");
+    ta.style.position="fixed";ta.style.top="-1000px";document.body.appendChild(ta);
+    ta.select();ta.setSelectionRange(0,ta.value.length);
+    var done=false;try{done=document.execCommand("copy")}catch(e){done=false}
+    document.body.removeChild(ta);
+    if(done)ok(); else toast("Kopieren blockiert – bitte Text markieren");
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fallback);}else fallback();
+}
+var toastEl=document.getElementById("toast"),toastT=null;
+function toast(msg){toastEl.textContent=msg;toastEl.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove("show")},1600);}
+function context(text){
+  var T=text.toUpperCase(),bits=[];
+  var r=T.match(/(\d{1,4})\s*NM\s*RADIUS/);if(r)bits.push("Radius "+(+r[1])+" NM");
+  var fl=T.match(/\bFL\s?(\d{2,3})\b/g);var sfc=/\bSFC\b|\bGND\b/.test(T);
+  if(sfc&&fl)bits.push("Vertikal "+(/\bSFC\b/.test(T)?"SFC":"GND")+" – "+fl[fl.length-1].replace(/\s/,""));
+  else if(fl)bits.push("Bis "+fl[fl.length-1].replace(/\s/,""));
+  if(/GNSS|GPS|RAIM|INTERFERENCE|JAMMING|SPOOFING/.test(T))bits.push("GNSS-Störung");
+  return bits;
+}
+var srcEl=document.getElementById("src");
+var resEl=document.getElementById("results");
+var msgEl=document.getElementById("msg");
+var allbar=document.getElementById("allbar");
+var countEl=document.getElementById("count");
+var ctxEl=document.getElementById("lidoCtx");
+var hintEl=document.getElementById("seghint");
+var fmt=load("lidoconv.fmt","dm");if(!FORMATS[fmt])fmt="dm";
+var points=[];
+function setFmt(f){
+  fmt=f;save("lidoconv.fmt",f);
+  var btns=document.querySelectorAll("#seg button");
+  for(var i=0;i<btns.length;i++){btns[i].setAttribute("aria-pressed",btns[i].dataset.fmt===f?"true":"false");}
+  hintEl.innerHTML=FORMATS[f].hint;render();
+}
+function render(){
+  var txt=srcEl.value;points=parse(txt);
+  resEl.innerHTML="";msgEl.innerHTML="";ctxEl.hidden=true;
+  if(!txt.trim()){msgEl.innerHTML='<p class="lido-empty">Noch nichts eingefügt. Der ganze NOTAM-Block darf rein – alle Koordinaten darin werden erkannt.</p>';allbar.hidden=true;return;}
+  if(points.length===0){msgEl.innerHTML='<p class="lido-bad">Keine Koordinaten gefunden. Erkannt werden z. B. 402820N 0033339W, 4028.3N00333.7W, 40°28\'20"N 003°33\'39"W und 40.4722, -3.5608.</p>';allbar.hidden=true;return;}
+  for(var i=0;i<points.length;i++){
+    (function(p,n){
+      var out=FORMATS[fmt].fn(p);
+      var li=document.createElement("li");li.className="lido-res";
+      var idx=document.createElement("span");idx.className="lido-idx";idx.textContent=n+1;
+      var val=document.createElement("div");val.className="lido-val";val.textContent=out;
+      var alt=document.createElement("div");alt.className="lido-alt";alt.textContent=human(p);
+      var btn=document.createElement("button");btn.className="lido-copy";btn.type="button";btn.textContent="Kopieren";
+      btn.setAttribute("aria-label","Punkt "+(n+1)+" kopieren");
+      btn.addEventListener("click",function(){copy(out,btn)});
+      li.appendChild(idx);li.appendChild(val);li.appendChild(btn);li.appendChild(alt);
+      resEl.appendChild(li);
+    })(points[i],i);
+  }
+  countEl.textContent=points.length===1?"1 Punkt":points.length+" Punkte";allbar.hidden=false;
+  var bits=context(txt);if(bits.length){ctxEl.innerHTML="<b>Aus dem Text:</b> "+bits.join(" · ");ctxEl.hidden=false;}
+}
+function joined(sep){var out=[];for(var i=0;i<points.length;i++)out.push(FORMATS[fmt].fn(points[i]));return out.join(sep);}
+document.getElementById("copyall").addEventListener("click",function(){copy(joined("\n"),this);});
+document.getElementById("copyroute").addEventListener("click",function(){copy(joined(" "),this);});
+document.getElementById("clear").addEventListener("click",function(){srcEl.value="";render();srcEl.focus();});
+document.getElementById("seg").addEventListener("click",function(e){var b=e.target.closest("button[data-fmt]");if(b)setFmt(b.dataset.fmt);});
+srcEl.addEventListener("input",render);
+var pasteBtn=document.getElementById("paste");
+if(navigator.clipboard&&navigator.clipboard.readText){
+  pasteBtn.hidden=false;
+  pasteBtn.addEventListener("click",function(){navigator.clipboard.readText().then(function(t){srcEl.value=t;render();},function(){toast("Zugriff auf Zwischenablage verweigert")});});
+}
+setFmt(fmt);render();
 })();
 </script>
 <script>

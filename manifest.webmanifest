@@ -1,7 +1,7 @@
 {
   "name": "A220 Performance Tools",
   "short_name": "A220 Perf",
-  "description": "Max Cruise Altitude & Mean Idle Thrust FPA (BCS1/BCS3)",
+  "description": "Max Cruise & Recommended Altitude, Idle-Thrust FPA, Koordinaten \u2192 Lido (BCS1/BCS3)",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
